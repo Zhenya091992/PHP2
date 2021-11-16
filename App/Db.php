@@ -14,17 +14,17 @@ class Db
     public function execute($sql, array $data = null)
     {
         $sth = $this->dbh->prepare($sql);
-        $res = $sth->execute($data);
-        return $res;
+        return $sth->execute($data);
     }
 
-    public function query($sql, $class, array $data = null)
+    public function query($sql, $class, $data = null)
     {
         $sth = $this->dbh->prepare($sql);
         $res = $sth->execute($data);
         if (false !== $res) {
             return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
         }
+        var_dump($sth->errorInfo());
         return [];
     }
 }

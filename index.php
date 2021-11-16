@@ -2,6 +2,6 @@
 
 require __DIR__ . '/autoload.php';
 
-$users = \App\Models\User::findAll();
+$news = \App\Models\News::findLast(3);
 
-var_dump($users);
+include __DIR__ . '/template/index.php';
