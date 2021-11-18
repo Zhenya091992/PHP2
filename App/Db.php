@@ -5,10 +5,19 @@ namespace App;
 class Db
 {
     protected $dbh;
+    protected $config;
 
     public function __construct()
     {
-        $this->dbh = new \PDO('mysql:host=127.0.0.1;dbname=test', 'root', 'root');
+        $this->config = Config::instance();                         //конфигурация БД
+
+        $this->dbh = new \PDO(
+            $this->config->configData['db']['driver'] .         //DSN
+            ':host=' . $this->config->configData['db']['host'] .
+            ';dbname=' . $this->config->configData['db']['dbname'],
+
+            $this->config->configData['db']['user'],                //user
+            $this->config->configData['db']['password']);           //password
     }
 
     public function execute($sql, array $data = null)
