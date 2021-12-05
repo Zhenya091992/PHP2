@@ -5,11 +5,12 @@
     <title>test</title>
 </head>
     <body>
-        <?php foreach ($news as $oneNews):
-            ?><a href="article.php?id=<?php echo $oneNews->id; ?>"><h2><?php echo $oneNews->title; ?></h2></a><br>
-            <?php echo $oneNews->shortDescription . '<br>';?>
-        <h4><?php echo $oneNews->author;?></h4>
-        <?php endforeach; ?>
+        <?php
+        foreach ($news as $oneNews) {
+            echo '<a href="article.php?id=' . $oneNews->id . '"><h2>' . $oneNews->title . '</h2></a><br>';
+            echo $oneNews->shortDescription . '<br>';
+            echo "<h4>$oneNews->author</h4>";
+        }
+        ?>
     </body>
 </html>
-

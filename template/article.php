@@ -5,10 +5,12 @@
     <title>test</title>
 </head>
     <body>
-        <?php foreach ($news as $oneNews):
-            ?><h2><?php echo $oneNews->title; ?></h2></a><br>
-            <?php echo $oneNews->text . '<br>';?>
-            <h4><?php echo $oneNews->author;?></h4>
-        <?php endforeach; ?>
+        <?php
+        foreach ($news as $oneNews) {
+            echo "<h2>$oneNews->title</h2><br>";
+            echo $oneNews->text . '<br>';
+            echo "<h4>$oneNews->author</h4>";
+        }
+        ?>
     </body>
 </html>

@@ -2,11 +2,8 @@
 
 namespace App;
 
-use \App;
-
 abstract class Model
 {
-
     const TABLE = '';
 
     protected static $db;
@@ -21,6 +18,7 @@ abstract class Model
     public static function findAll()
     {
         static::connectDB();
+
         return static::$db->query(
             'SELECT * FROM ' . static::TABLE,
             static::class
@@ -30,6 +28,7 @@ abstract class Model
     public static function findById($id)
     {
         static::connectDB();
+
         return static::$db->query(
             'SELECT * FROM ' . static::TABLE . ' WHERE `id`=:id',
             static::class,
@@ -40,10 +39,10 @@ abstract class Model
     public static function findLast($quantity)
     {
         static::connectDB();
+
         return static::$db->query(
             'SELECT * FROM ' . static::TABLE . ' ORDER BY `id` DESC LIMIT ' . $quantity,
             static::class
         );
     }
-
 }
