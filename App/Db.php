@@ -4,10 +4,12 @@ namespace App;
 
 class Db
 {
+    use Singleton;
+
     protected $dbh;
     protected $config;
 
-    public function __construct()
+    protected function __construct()
     {
         $this->config = Config::instance();                         //конфигурация БД
 
@@ -23,17 +25,23 @@ class Db
     public function execute($sql, array $data = null)
     {
         $sth = $this->dbh->prepare($sql);
+
         return $sth->execute($data);
     }
 
-    public function query($sql, $class, $data = null)
+    public function query($sql, $class = null, $data = null)
     {
         $sth = $this->dbh->prepare($sql);
-        $res = $sth->execute($data);
-        if (false !== $res) {
-            return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
+        if ($sth->execute($data)) {
+            if (null == $class) {
+
+                return $sth->fetchAll();
+            } else {
+
+                return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
+            }
         }
-        var_dump($sth->errorInfo());
+
         return [];
     }
 }
