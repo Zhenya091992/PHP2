@@ -41,5 +41,4 @@ if ($_GET['action'] == 'update') {
 
 $data = News::findLast(10);
 
-
 include __DIR__ . '/template/tempAdminTable.php';

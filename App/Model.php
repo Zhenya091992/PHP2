@@ -6,9 +6,11 @@ use \App;
 
 abstract class Model
 {
+    use \App\traits\MagicGetSetIsset;
+
     const TABLE = '';
 
-    public $id;
+
 
     protected static $db;
 
@@ -56,7 +58,7 @@ abstract class Model
     {
         $columns = [];
         $values = [];
-        foreach ($this as $k => $v) {
+        foreach ($this->data as $k => $v) {
             if ('id' == $k) {
                 continue;
             }
@@ -82,7 +84,7 @@ abstract class Model
     public function update()
     {
         $sqlShortFragment = [];
-        foreach ($this as $key => $value) {
+        foreach ($this->data as $key => $value) {
             $data[':' . $key] = $value;
             if ('id' == $key) {
                 continue;

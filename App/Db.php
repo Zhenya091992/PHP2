@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\traits\Singleton;
+
 class Db
 {
     use Singleton;
