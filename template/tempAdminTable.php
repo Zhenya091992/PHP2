@@ -18,15 +18,18 @@
         <th scope="col">id</th>
         <th scope="col">Name news</th>
         <th scope="col">Short description</th>
+        <th scope="col">Author</th>
         <th scope="col">Action</th>
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($data as $value){ ?>
+    <?php
+    foreach ($data as $value){ ?>
         <tr>
             <th scope="row"><?php echo $value->id; ?></th>
             <td><?php echo $value->title; ?></td>
             <td><?php echo $value->shortDescription; ?></td>
+            <td><?php echo $value->author instanceof \App\Models\Author ? $value->author->nameAuthor : $value->author ?></td>
             <td>
                 <a data-bs-toggle="modal" class="btn btn-success btn-sm" href="#exampleModal<?php echo $value->id; ?>" role="button" >update</a>
                 <a class="btn btn-danger btn-sm" href="?action=delete&id=<?php echo $value->id; ?>" role="button">delete</a>
@@ -69,6 +72,16 @@
                     <div class="mb-3">
                         <label for="validationText" class="form-label">Author</label>
                         <input type="text" class="form-control" name="author">
+                    </div>
+                    <div class="mb-3">
+                        <select name="author_id" class="form-select" aria-label="Default select example">
+                            <option selected>Select author</option>
+                            <?php
+                            foreach ($authors as $author) {
+                                echo '<option value="' . $author->id . '">' . $author->nameAuthor . '</option>';
+                            }
+                            ?>
+                        </select>
                     </div>
 
                 </div>

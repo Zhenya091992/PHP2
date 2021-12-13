@@ -2,18 +2,40 @@
 
 namespace App;
 
-use \App;
+//use App;
+use App\Db;
 
+/**
+ * Class Model
+ *
+ * a class describing the behavior of the model
+ *
+ * @package App
+ * @property int $id id database
+ *
+ */
 abstract class Model
 {
     use \App\traits\MagicGetSetIsset;
 
+    /**
+     * @var string TABLE constant
+     */
     const TABLE = '';
 
+    /**
+     * Contains an object that connects to the database
+     *
+     * @property
+     * @var \App\Db
+     */
+    protected static Db $db;
 
-
-    protected static $db;
-
+    /**
+     * Creates a database connection object
+     *
+     * @return void
+     */
     public static function connectDB()
     {
         if (empty(static::$db)) {
@@ -21,6 +43,13 @@ abstract class Model
         }
     }
 
+    /**
+     * Finds all data of database
+     *
+     * Finds all data of database and returns it as array of objects or false
+     *
+     * @return array|false
+     */
     public static function findAll()
     {
         static::connectDB();
@@ -30,82 +59,112 @@ abstract class Model
         );
     }
 
-    public static function findById($id)
+    /**
+     * Finds a row in the database by id
+     *
+     * @param int $id
+     * @return Model array|false
+     */
+    public static function findById(int $id) :array
     {
         static::connectDB();
         return static::$db->query(
-            'SELECT * FROM ' . static::TABLE . ' WHERE `id`=:id',
+            'SELECT * FROM ' . static::TABLE . ' WHERE id = :id',
             static::class,
             [':id' => $id]
         );
     }
 
-    public static function findLast($quantity)
+    /**
+     * Finds a some quantity last inserted rows in the database
+     *
+     * grouped from the last
+     *
+     * @param int $quantity
+     * @return array|false
+     */
+    public static function findLast(int $quantity)
     {
         static::connectDB();
         return static::$db->query(
-            'SELECT * FROM ' . static::TABLE . ' ORDER BY `id` DESC LIMIT ' . $quantity,
+            'SELECT * FROM ' . static::TABLE . ' ORDER BY id DESC LIMIT ' . $quantity,
             static::class
         );
     }
 
-    public function isNew()
+    /**
+     * Checking for the existence of a model
+     *
+     * @return bool
+     */
+    public function isNew() :bool
     {
         return empty($this->id);
     }
 
+    /**
+     * Insert object in to the database table
+     *
+     * Create new row in to the database table, and setting id Model
+     *
+     * @return void
+     */
     public function insert()
     {
         $columns = [];
         $values = [];
-        foreach ($this->data as $k => $v) {
-            if ('id' == $k) {
+        foreach ($this->data as $property => $value) {
+            if ('id' == $property) {
                 continue;
             }
-            $columns[] = $k;
-            $values[':' . $k] = $v;
+            $columns[] = $property;
+            $values[':' . $property] = $value;
         }
 
-        $sql = 'INSERT INTO ' . static::TABLE . ' (`' . implode('`, `', $columns) . '`) 
+        $sql = 'INSERT INTO ' . static::TABLE . ' (' . implode(', ', $columns) . ') 
         VALUES (' . implode(', ', array_keys($values)) . ')';
 
         static::connectDB();
         if (static::$db->execute($sql, $values)) {
-            $id = static::$db->query('SELECT LAST_INSERT_ID()');
-            $this->id = $id[0]['LAST_INSERT_ID()'];
-
-            return true;
-        } else {
-
-            return false;
+            $id = static::$db->lastInsertId();
+            $this->id = $id;
         }
     }
 
+    /**
+     * Updating an existing row in a database table
+     *
+     * @return void
+     */
     public function update()
     {
         $sqlShortFragment = [];
-        foreach ($this->data as $key => $value) {
-            $data[':' . $key] = $value;
-            if ('id' == $key) {
+        foreach ($this->data as $property => $value) {
+            $data[':' . $property] = $value;
+            if ('id' == $property) {
                 continue;
             }
-            $sqlShortFragment[] = "`$key` = :$key ";
+            $sqlShortFragment[] = "$property = :$property ";
             $sqlFragment = implode(', ', $sqlShortFragment);
         }
 
         $sqlUpdate = (
             "UPDATE " . static::TABLE .
             " SET " . $sqlFragment .
-            " WHERE " . "`id`=:id"
+            " WHERE " . "id = :id"
         );
 
-        return static::$db->query($sqlUpdate, static::class, $data);
+        static::$db->query($sqlUpdate, static::class, $data);
     }
 
+    /**
+     * Saves object properties to the database
+     *
+     * @return void
+     */
     public function save()
     {
         if ($this->isNew()) {
-
             return $this->insert();
         } else {
 
@@ -113,11 +172,15 @@ abstract class Model
         }
     }
 
+    /**
+     * Deletes a row of the corresponding object from the database
+     *
+     * @return void
+     */
     public function delete()
     {
         $data = [':id' => $this->id];
-        $sqlDelete = ("DELETE FROM " . static::TABLE . " WHERE `id`=:id");
-
-        return static::$db->execute($sqlDelete, $data);
+        $sqlDelete = ("DELETE FROM " . static::TABLE . " WHERE id = :id");
+        static::$db->execute($sqlDelete, $data);
     }
 }

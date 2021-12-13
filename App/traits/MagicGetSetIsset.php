@@ -4,9 +4,18 @@ namespace App\traits;
 
 trait MagicGetSetIsset
 {
+    /**
+     * @var array properties
+     */
     protected $data = [];
 
-    public function __get($name)
+    /**
+     * get property
+     *
+     * @param string $name name property
+     * @return mixed|null return property
+     */
+    public function __get(string $name)
     {
         if ($this->__isset($name)) {
 
@@ -17,12 +26,24 @@ trait MagicGetSetIsset
         }
     }
 
-    public function __set($name, $value)
+    /**
+     * set property
+     *
+     * @param string $name name property
+     * @param mixed $value value property
+     */
+    public function __set(string $name, $value)
     {
         $this->data[$name] = $value;
     }
 
-    public function __isset($name)
+    /**
+     * isset property
+     *
+     * @param string $name name property
+     * @return bool
+     */
+    public function __isset(string $name) :bool
     {
         return isset($this->data[$name]);
     }

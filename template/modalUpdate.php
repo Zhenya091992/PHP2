@@ -21,7 +21,21 @@
                     </div>
                     <div class="mb-3">
                         <label for="validationText" class="form-label">Author</label>
-                        <input type="text" class="form-control" name="newAuthor" value="<?php echo $value->author; ?>">
+                        <input type="text" class="form-control" name="newAuthor" <?php echo !empty($value->author_id) ?: 'value="' . $value->author . '">' ?>
+                    </div>
+                    <div class="mb-3">
+                        <select name="author_id" class="form-select" aria-label="Default select example">
+                            <option selected>Select author</option>
+                            <?php
+                            foreach ($authors as $author) {
+                                echo '<option ';
+                                if ($author->id == $value->author_id) {
+                                    echo 'selected ';
+                                }
+                                echo 'value="' . $author->id . '">' . $author->nameAuthor . '</option>';
+                            }
+                            ?>
+                        </select>
                     </div>
 
                 </div>

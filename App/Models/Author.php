@@ -5,16 +5,18 @@ namespace App\Models;
 use App\Model;
 
 /**
- * Class User
+ * Class Author
  *
  * @package App\Models
  *
- * @property $nameUser
+ * @property $nameAuthor
+ *
  */
-class User extends Model
+class Author extends Model
 {
     /**
      * @var string TABLE constant
      */
-    const TABLE = 'users';
+    const TABLE = 'authors';
+
 }
