@@ -44,4 +44,9 @@ class Db
 
         return [];
     }
+
+    public function lastIncertId()
+    {
+        return $this->dbh->lastInsertId();
+    }
 }

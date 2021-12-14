@@ -41,6 +41,7 @@ abstract class Model
     public static function findLast($quantity)
     {
         static::connectDB();
+
         return static::$db->query(
             'SELECT * FROM ' . static::TABLE . ' ORDER BY `id` DESC LIMIT ' . $quantity,
             static::class
@@ -56,26 +57,20 @@ abstract class Model
     {
         $columns = [];
         $values = [];
-        foreach ($this as $k => $v) {
-            if ('id' == $k) {
+        foreach ($this as $property => $value) {
+            if ('id' == $property) {
                 continue;
             }
-            $columns[] = $k;
-            $values[':' . $k] = $v;
+            $columns[] = $property;
+            $values[':' . $property] = $value;
         }
 
-        $sql = 'INSERT INTO ' . static::TABLE . ' (`' . implode('`, `', $columns) . '`) 
+        $sql = 'INSERT INTO ' . static::TABLE . ' (' . implode(', ', $columns) . ') 
         VALUES (' . implode(', ', array_keys($values)) . ')';
 
         static::connectDB();
         if (static::$db->execute($sql, $values)) {
-            $id = static::$db->query('SELECT LAST_INSERT_ID()');
-            $this->id = $id[0]['LAST_INSERT_ID()'];
-
-            return true;
-        } else {
-
-            return false;
+            $this->id = static::$db->lastIncertId();
         }
     }
 
@@ -87,23 +82,21 @@ abstract class Model
             if ('id' == $key) {
                 continue;
             }
-            $sqlShortFragment[] = "`$key` = :$key ";
+            $sqlShortFragment[] = "$key = :$key ";
             $sqlFragment = implode(', ', $sqlShortFragment);
         }
 
         $sqlUpdate = (
             "UPDATE " . static::TABLE .
             " SET " . $sqlFragment .
-            " WHERE " . "`id`=:id"
+            " WHERE " . "id = :id"
         );
-
-        return static::$db->query($sqlUpdate, static::class, $data);
+        static::$db->query($sqlUpdate, static::class, $data);
     }
 
     public function save()
     {
         if ($this->isNew()) {
-
             return $this->insert();
         } else {
 
@@ -114,8 +107,7 @@ abstract class Model
     public function delete()
     {
         $data = [':id' => $this->id];
-        $sqlDelete = ("DELETE FROM " . static::TABLE . " WHERE `id`=:id");
-
-        return static::$db->execute($sqlDelete, $data);
+        $sqlDelete = ("DELETE FROM " . static::TABLE . " WHERE id = :id");
+        static::$db->execute($sqlDelete, $data);
     }
 }
