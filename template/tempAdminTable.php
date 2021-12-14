@@ -24,12 +24,12 @@
     </thead>
     <tbody>
     <?php
-    foreach ($data as $value){ ?>
+    foreach ($data as $value) {?>
         <tr>
-            <th scope="row"><?php echo $value->id; ?></th>
-            <td><?php echo $value->title; ?></td>
-            <td><?php echo $value->shortDescription; ?></td>
-            <td><?php echo $value->author instanceof \App\Models\Author ? $value->author->nameAuthor : $value->author ?></td>
+            <th scope="row"><?php echo $value['id']; ?></th>
+            <td><?php echo $value['title']; ?></td>
+            <td><?php echo $value['shortDescription']; ?></td>
+            <td><?php echo !empty($value['author_id']) ? $value->author['nameAuthor'] : $value['author'] ?></td>
             <td>
                 <a data-bs-toggle="modal" class="btn btn-success btn-sm" href="#exampleModal<?php echo $value->id; ?>" role="button" >update</a>
                 <a class="btn btn-danger btn-sm" href="?action=delete&id=<?php echo $value->id; ?>" role="button">delete</a>

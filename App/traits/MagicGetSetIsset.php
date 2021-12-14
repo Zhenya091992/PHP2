@@ -5,9 +5,9 @@ namespace App\traits;
 trait MagicGetSetIsset
 {
     /**
-     * @var array properties
+     * @var array $data properties
      */
-    protected $data = [];
+    protected array $data = [];
 
     /**
      * get property
@@ -43,7 +43,7 @@ trait MagicGetSetIsset
      * @param string $name name property
      * @return bool
      */
-    public function __isset(string $name) :bool
+    public function __isset(string $name): bool
     {
         return isset($this->data[$name]);
     }

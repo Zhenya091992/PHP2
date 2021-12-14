@@ -15,7 +15,7 @@ class Db
     /**
      * contain PDO object
      *
-     * @var \PDO
+     * @var PDO $dbh
      */
     protected $dbh;
     /**
@@ -48,7 +48,7 @@ class Db
      * @param array|null $data array with placeholders|null
      * @return bool
      */
-    public function execute(string $sql, array $data = null) :bool
+    public function execute(string $sql, array $data = null): bool
     {
         $sth = $this->dbh->prepare($sql);
 
@@ -63,7 +63,7 @@ class Db
      * @param array|null $data array with placeholders|null
      * @return array
      */
-    public function query(string $sql,string $class = null, $data = null) :array
+    public function query(string $sql,string $class = null, $data = null): array
     {
         $sth = $this->dbh->prepare($sql);
         if ($sth->execute($data)) {
@@ -84,7 +84,7 @@ class Db
      *
      * @return string
      */
-    public function lastInsertId() :string
+    public function lastInsertId(): string
     {
         return $this->dbh->lastInsertId();
     }

@@ -2,7 +2,6 @@
 
 namespace App;
 
-//use App;
 use App\Db;
 
 /**
@@ -14,7 +13,7 @@ use App\Db;
  * @property int $id id database
  *
  */
-abstract class Model
+abstract class Model implements \ArrayAccess, \Iterator
 {
     use \App\traits\MagicGetSetIsset;
 
@@ -23,6 +22,8 @@ abstract class Model
      */
     const TABLE = '';
 
+    private $position = 0;
+
     /**
      * Contains an object that connects to the database
      *
@@ -30,6 +31,60 @@ abstract class Model
      * @var \App\Db
      */
     protected static Db $db;
+
+    public function __construct()
+    {
+        $this->position = 0;
+    }
+
+    public function current()
+    {
+        return $this->data[$this->position];
+    }
+
+    public function key()
+    {
+        return $this->position;
+    }
+
+    public function next()
+    {
+        ++$this->position;
+    }
+
+    public function rewind()
+    {
+        $this->position = 0;
+    }
+
+    public function valid()
+    {
+        return isset($this->data[$this->position]);
+    }
+
+    public function offsetExists($offset) :bool
+    {
+        return isset($this->data[$offset]);
+    }
+
+    public function offsetGet($offset)
+    {
+        return isset($this->data[$offset]) ? $this->data[$offset] : null;
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        if (is_null($offset)) {
+            $this->data[] = $value;
+        } else {
+            $this->data[$offset] = $value;
+        }
+    }
+
+    public function offsetUnset($offset)
+    {
+        unset($this->data[$offset]);
+    }
 
     /**
      * Creates a database connection object
@@ -65,7 +120,7 @@ abstract class Model
      * @param int $id
      * @return Model array|false
      */
-    public static function findById(int $id) :array
+    public static function findById(int $id): array
     {
         static::connectDB();
         return static::$db->query(
@@ -97,7 +152,7 @@ abstract class Model
      *
      * @return bool
      */
-    public function isNew() :bool
+    public function isNew(): bool
     {
         return empty($this->id);
     }
