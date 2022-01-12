@@ -94,7 +94,7 @@ abstract class Model implements \ArrayAccess, \Iterator
     public static function connectDB()
     {
         if (empty(static::$db)) {
-            static::$db = Db::instance();
+            static::$db = new Db();
         }
     }
 
@@ -108,6 +108,7 @@ abstract class Model implements \ArrayAccess, \Iterator
     public static function findAll()
     {
         static::connectDB();
+
         return static::$db->query(
             'SELECT * FROM ' . static::TABLE,
             static::class
@@ -123,6 +124,7 @@ abstract class Model implements \ArrayAccess, \Iterator
     public static function findById(int $id): array
     {
         static::connectDB();
+
         return static::$db->query(
             'SELECT * FROM ' . static::TABLE . ' WHERE id = :id',
             static::class,
@@ -141,6 +143,7 @@ abstract class Model implements \ArrayAccess, \Iterator
     public static function findLast(int $quantity)
     {
         static::connectDB();
+
         return static::$db->query(
             'SELECT * FROM ' . static::TABLE . ' ORDER BY id DESC LIMIT ' . $quantity,
             static::class
@@ -220,10 +223,9 @@ abstract class Model implements \ArrayAccess, \Iterator
     public function save()
     {
         if ($this->isNew()) {
-            return $this->insert();
+            $this->insert();
         } else {
-
-            return $this->update();
+            $this->update();
         }
     }
 

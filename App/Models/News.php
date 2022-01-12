@@ -25,11 +25,6 @@ class News extends Model
      */
     const TABLE = 'news';
 
-    public function __construct()
-    {
-
-    }
-
     /**
      * __get property
      *
@@ -40,19 +35,7 @@ class News extends Model
      */
     public function __get(string $name)
     {
-        if ($this->__isset($name)) {
-            if ($name == 'author') {
-                if ($this->author_id) {
-                    $author = Author::findById($this->author_id);
-
-                    return $author[0];
-                }
-            }
-
-            return $this->data[$name];
-        } else {
-
-            return null;
-        }
+        return $this->data[$name] ? $this->data[$name] :
+            ($name == 'author' ? Author::findById((int) $this->data['author_id'])[0] : null);
     }
 }

@@ -19,16 +19,6 @@ class Config
     public $configData;
 
     /**
-     * Config protected constructor.
-     *
-     * read config.php file and fill $configData
-     */
-    protected function __construct()
-    {
-        $this->configData = include __DIR__ . '../../config.php';
-    }
-
-    /**
      * create singleton Config
      *
      * @return Config
@@ -40,5 +30,15 @@ class Config
         }
 
         return static::$instance;
+    }
+
+    /**
+     * Config protected constructor.
+     *
+     * read config.php file and fill $configData
+     */
+    protected function __construct()
+    {
+        $this->configData = include __DIR__ . '../../config.php';
     }
 }
