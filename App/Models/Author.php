@@ -18,5 +18,4 @@ class Author extends Model
      * @var string TABLE constant
      */
     const TABLE = 'authors';
-
 }

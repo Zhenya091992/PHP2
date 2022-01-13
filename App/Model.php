@@ -22,8 +22,6 @@ abstract class Model implements \ArrayAccess, \Iterator
      */
     const TABLE = '';
 
-    private $position = 0;
-
     /**
      * Contains an object that connects to the database
      *
@@ -32,34 +30,32 @@ abstract class Model implements \ArrayAccess, \Iterator
      */
     protected static Db $db;
 
-    public function __construct()
-    {
-        $this->position = 0;
-    }
 
     public function current()
     {
-        return $this->data[$this->position];
+        return current($this->data);
+
     }
 
     public function key()
     {
-        return $this->position;
+        return key($this->data);
+
     }
 
     public function next()
     {
-        ++$this->position;
+        next($this->data);
     }
 
     public function rewind()
     {
-        $this->position = 0;
+        reset($this->data);
     }
 
     public function valid()
     {
-        return isset($this->data[$this->position]);
+        return null !== key($this->data);
     }
 
     public function offsetExists($offset) :bool
@@ -74,11 +70,7 @@ abstract class Model implements \ArrayAccess, \Iterator
 
     public function offsetSet($offset, $value)
     {
-        if (is_null($offset)) {
-            $this->data[] = $value;
-        } else {
-            $this->data[$offset] = $value;
-        }
+        is_null($offset) ? $this->data[] = $value : $this->data[$offset] = $value;
     }
 
     public function offsetUnset($offset)
@@ -94,7 +86,7 @@ abstract class Model implements \ArrayAccess, \Iterator
     public static function connectDB()
     {
         if (empty(static::$db)) {
-            static::$db = Db::instance();
+            static::$db = new Db();
         }
     }
 
@@ -108,6 +100,7 @@ abstract class Model implements \ArrayAccess, \Iterator
     public static function findAll()
     {
         static::connectDB();
+
         return static::$db->query(
             'SELECT * FROM ' . static::TABLE,
             static::class
@@ -123,6 +116,7 @@ abstract class Model implements \ArrayAccess, \Iterator
     public static function findById(int $id): array
     {
         static::connectDB();
+
         return static::$db->query(
             'SELECT * FROM ' . static::TABLE . ' WHERE id = :id',
             static::class,
@@ -141,6 +135,7 @@ abstract class Model implements \ArrayAccess, \Iterator
     public static function findLast(int $quantity)
     {
         static::connectDB();
+
         return static::$db->query(
             'SELECT * FROM ' . static::TABLE . ' ORDER BY id DESC LIMIT ' . $quantity,
             static::class
@@ -219,12 +214,7 @@ abstract class Model implements \ArrayAccess, \Iterator
      */
     public function save()
     {
-        if ($this->isNew()) {
-            return $this->insert();
-        } else {
-
-            return $this->update();
-        }
+        $this->isNew() ? $this->insert() : $this->update();
     }
 
     /**

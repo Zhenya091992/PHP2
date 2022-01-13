@@ -9,14 +9,14 @@ if ($_GET['action'] == 'create') {
     if (
         !empty($_POST['title']) &&
         !empty($_POST['shortDescription']) &&
-        !empty($_POST['text'])
+        !empty($_POST['text']) &&
+        !empty($_POST['author_id'])
     ) {
         $news = new News();
         $news->title = $_POST['title'];
         $news->shortDescription = $_POST['shortDescription'];
         $news->text = $_POST['text'];
-        $news->author = isset($_POST['author']) ?  $_POST['author'] : null;
-        $news->author_id = $_POST['author_id'] == 'Select author' ? null : $_POST['author_id'];
+        $news->author_id = $_POST['author_id'];
         $news->save();
         unset($news, $_POST);
     }
@@ -34,7 +34,6 @@ if ($_GET['action'] == 'update') {
         $news[0]->title = $_POST['newTitle'];
         $news[0]->shortDescription = $_POST['newShortDescription'];
         $news[0]->text = $_POST['newText'];
-        $news[0]->author = $_POST['newAuthor'];
         $news[0]->author_id = $_POST['author_id'];
         $news[0]->save();
         unset($news);

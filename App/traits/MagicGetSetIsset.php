@@ -17,13 +17,7 @@ trait MagicGetSetIsset
      */
     public function __get(string $name)
     {
-        if ($this->__isset($name)) {
-
-            return $this->data[$name];
-        } else {
-
-            return null;
-        }
+        return $this->data[$name] ?: null;
     }
 
     /**

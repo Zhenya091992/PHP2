@@ -10,8 +10,6 @@ use App\traits\Singleton;
  */
 class Db
 {
-    use Singleton;
-
     /**
      * contain PDO object
      *
@@ -28,7 +26,7 @@ class Db
     /**
      * creates a connection to the database
      */
-    protected function __construct()
+    public function __construct()
     {
         $this->config = Config::instance();                          //конфигурация БД
 
@@ -38,7 +36,8 @@ class Db
             ';dbname=' . $this->config->configData['db']['dbname'],
 
             $this->config->configData['db']['user'],                //user
-            $this->config->configData['db']['password']);           //password
+            $this->config->configData['db']['password']           //password
+        );
     }
 
     /**
@@ -68,10 +67,8 @@ class Db
         $sth = $this->dbh->prepare($sql);
         if ($sth->execute($data)) {
             if (null == $class) {
-
                 return $sth->fetchAll();
             } else {
-
                 return $sth->fetchAll(\PDO::FETCH_CLASS, $class);
             }
         }

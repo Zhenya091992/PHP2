@@ -10,23 +10,13 @@ namespace App;
 class Config
 {
     /**
-     * @var null|self contain object self class
-     */
-    protected static $instance = null;
-    /**
      * @var array contain array config data
      */
     public $configData;
-
     /**
-     * Config protected constructor.
-     *
-     * read config.php file and fill $configData
+     * @var null|self contain object self class
      */
-    protected function __construct()
-    {
-        $this->configData = include __DIR__ . '../../config.php';
-    }
+    protected static $instance = null;
 
     /**
      * create singleton Config
@@ -40,5 +30,15 @@ class Config
         }
 
         return static::$instance;
+    }
+
+    /**
+     * Config protected constructor.
+     *
+     * read config.php file and fill $configData
+     */
+    protected function __construct()
+    {
+        $this->configData = include __DIR__ . '../../config.php';
     }
 }

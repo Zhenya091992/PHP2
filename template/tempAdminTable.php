@@ -70,10 +70,6 @@
                         <textarea class="form-control" name="text"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="validationText" class="form-label">Author</label>
-                        <input type="text" class="form-control" name="author">
-                    </div>
-                    <div class="mb-3">
                         <select name="author_id" class="form-select" aria-label="Default select example">
                             <option selected>Select author</option>
                             <?php
