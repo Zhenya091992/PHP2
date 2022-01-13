@@ -28,26 +28,12 @@ class Controller
     }
 
     /**
-     * @param string $controller name controller
-     * @param string $action name action
-     *
-     * creates a controller object and calls an action
-     */
-    public final function controller(string $controller, string $action)
-    {
-        $nameController = 'App\\controllers\\' . $controller . 'Ctrl';
-        $this->ctrl = new  $nameController();
-        $this->ctrl->action($action);
-    }
-
-    /**
      * @param string $action name action
      *
      * calls an action
      */
-    public final function action(string $action)
+    public function action(string $nameMethod)
     {
-        $nameMethod = 'action' . $action;
         $this->$nameMethod();
     }
 }

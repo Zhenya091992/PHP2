@@ -25,11 +25,7 @@ class Config
      */
     public static function instance()
     {
-        if (!static::$instance) {
-            return static::$instance = new static();
-        }
-
-        return static::$instance;
+        return !static::$instance ? static::$instance = new static() : static::$instance;
     }
 
     /**
