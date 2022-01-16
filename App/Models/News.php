@@ -14,7 +14,6 @@ use App\Models\Author;
  * @property string $title Title news
  * @property string $shortDescription Short description news
  * @property string $text Text news
- * @property string $author Name author, if isset
  * @property int $author_id Id author, if isset
  */
 
@@ -35,7 +34,12 @@ class News extends Model
      */
     public function __get(string $name)
     {
-        return $this->data[$name] ? $this->data[$name] :
-            ($name == 'author' ? Author::findById((int) $this->data['author_id'])[0] : null);
+        if ($this->data[$name]) {
+            return $this->data[$name];
+        } else if ($name == 'author') {
+            return Author::findById((int) $this->data['author_id'])[0];
+        } else {
+            return null;
+        }
     }
 }

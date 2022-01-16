@@ -1,18 +1,11 @@
 <?php
 
-namespace App\controllers;
+namespace App\Controllers;
 
-use App\Models\Author;
-use App\Models\News;
 use App\View;
 
 class Controller
 {
-    /**
-     * @var object Controller
-     */
-    protected $ctrl;
-
     /**
      * @var View|bool
      */

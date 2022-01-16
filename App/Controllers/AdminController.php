@@ -1,12 +1,12 @@
 <?php
 
-namespace App\controllers;
+namespace App\Controllers;
 
-use App\controllers\Controller;
+use App\Controllers\Controller;
 use App\Models\News;
 use App\Models\Author;
 
-class AdminCtrl extends Controller
+class AdminController extends Controller
 {
     public function actionAllNews()
     {

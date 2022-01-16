@@ -22,7 +22,7 @@ class Router
 
         preg_match('#[^(php2/)][\w{1,}/]{1,}/(\w{1,})#', $uri, $matches);
         $matches[2] = preg_replace('#/' . $matches[1] . '$#', '', $matches[0]);
-        $nameController = 'App\controllers\\' . $matches[2] . 'Ctrl';
+        $nameController = 'App\controllers\\' . $matches[2] . 'Controller';
         $nameController = str_replace('/', '\\', $nameController);
         $nameAction = 'action' . $matches[1];
         $this->controller = new $nameController();
