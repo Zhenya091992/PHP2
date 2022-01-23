@@ -11,7 +11,6 @@
     <title>Admin panel</title>
 </head>
 <body>
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="/php2/News/AllNews">Home</a>
@@ -25,28 +24,26 @@
 
     </div>
 </nav>
-
-<?php
-foreach ($news as $value) {?>
-    <div class="card">
-        <h5 class="card-header"></h5>
-        <div class="card-body">
-            <h5 class="card-title"><?php echo $value['title'] ?></h5>
-            <p class="card-text"><?php echo $value['shortDescription']; ?></p>
-            <a href="OneNews/?id=<?php echo $value['id']; ?>" class="btn btn-primary">Читать</a>
-        </div>
+<div class="card" style="width: 25rem;">
+    <div class="card-body">
+        <form class="form-signin" action="SignIn" method="post">
+            <h1 class="h3 mb-3 font-weight-normal">Пожалуйста войдите</h1>
+            <label for="inputUser" class="sr-only">User</label>
+            <input type="text" name="user" id="inputUser" class="form-control" placeholder="User">
+            <label for="inputPassword" class="sr-only">Пароль</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Пароль">
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Запомнить меня
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+        </form>
     </div>
-<?php } ?>
+</div>
 
-<!-- Дополнительный JavaScript; выберите один из двух! -->
 
-<!-- Вариант 1: Bootstrap в связке с Popper -->
-<script src="/php2/style/js/bootstrap.bundle.min.js"></script>
 
-<!-- Вариант 2: Bootstrap JS отдельно от Popper
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
--->
-
+    <script src="/php2/style/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

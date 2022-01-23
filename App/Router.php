@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Controllers\NewsController;
+
 class Router
 {
     /**
@@ -13,19 +15,28 @@ class Router
      * @param string $uri request URI
      *
      * из URI запроса формируется полное имя контроллера, а так же имя экшна.
-     * при запросе '/Admin/admin.php/...' 'admin.php/' исключается из имени контроллера
+     * если полученный контроллер или экшн не существует, даем ошибку 404
      * затем запускается контроллер и его экшн
      */
     public function routing(string $uri)
     {
-        $uri = preg_replace('#(?<=/php2/Admin/)admin.php/\.*#', '', $uri);
-
         preg_match('#[^(php2/)][\w{1,}/]{1,}/(\w{1,})#', $uri, $matches);
         $matches[2] = preg_replace('#/' . $matches[1] . '$#', '', $matches[0]);
-        $nameController = 'App\controllers\\' . $matches[2] . 'Controller';
+        $nameController = 'App\Controllers\\' . $matches[2] . 'Controller';
         $nameController = str_replace('/', '\\', $nameController);
         $nameAction = 'action' . $matches[1];
-        $this->controller = new $nameController();
-        $this->controller->action($nameAction);
+        if (
+            file_exists(__DIR__ . '/../' . $nameController . '.php') &&
+            $nameController != 'App\Controllers\Controller'
+        ) {
+            if (method_exists($nameController, $nameAction)) {
+                $this->controller = new $nameController();
+                $this->controller->action($nameAction);
+            } else {
+                echo 'error 404';
+            }
+        } else {
+            echo 'error 404';
+        }
     }
 }

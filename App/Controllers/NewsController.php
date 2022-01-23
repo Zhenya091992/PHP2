@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Controllers\Controller;
 use App\Models\News;
 
-class NewsController extends Controller
+class NewsController extends Guest
 {
     public function actionAllNews()
     {
