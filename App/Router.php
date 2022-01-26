@@ -26,7 +26,6 @@ class Router
             $this->controller->action('actionAllNews');
         } else {
             preg_match('#[^(php2/)][\w{1,}/]{1,}/(\w{1,})#', $uri, $matches);
-            var_dump($matches);
             $matches[2] = preg_replace('#/' . $matches[1] . '$#', '', $matches[0]);
             $nameController = 'App\Controllers\\' . $matches[2] . 'Controller';
             $nameController = str_replace('/', '\\', $nameController);
