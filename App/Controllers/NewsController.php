@@ -1,11 +1,11 @@
 <?php
 
-namespace App\controllers;
+namespace App\Controllers;
 
-use App\controllers\Controller;
+use App\Controllers\Controller;
 use App\Models\News;
 
-class NewsCtrl extends Controller
+class NewsController extends Guest
 {
     public function actionAllNews()
     {

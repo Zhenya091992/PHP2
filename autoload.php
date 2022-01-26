@@ -1,8 +1,8 @@
 <?php
-define('ROOT', __DIR__);
+session_start();
 
 spl_autoload_register(function ($className) {
     $className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
-    $path = ROOT . '/' . $className . '.php';
+    $path = __DIR__ . '/' . $className . '.php';
     require $path;
 });
