@@ -2,11 +2,11 @@
 
 namespace App;
 
-use App\traits\MagicGetSetIsset;
+use App\traits\MagicTrait;
 
 class View implements \Countable
 {
-    use MagicGetSetIsset;
+    use MagicTrait;
 
     public function render(string $template)
     {

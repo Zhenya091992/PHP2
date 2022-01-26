@@ -15,7 +15,7 @@ use App\Db;
  */
 abstract class Model implements \ArrayAccess, \Iterator
 {
-    use \App\traits\MagicGetSetIsset;
+    use \App\traits\MagicTrait;
 
     /**
      * @var string TABLE constant
@@ -35,48 +35,7 @@ abstract class Model implements \ArrayAccess, \Iterator
         return current($this->data);
 
     }
-
-    public function key()
-    {
-        return key($this->data);
-
-    }
-
-    public function next()
-    {
-        next($this->data);
-    }
-
-    public function rewind()
-    {
-        reset($this->data);
-    }
-
-    public function valid()
-    {
-        return null !== key($this->data);
-    }
-
-    public function offsetExists($offset) :bool
-    {
-        return isset($this->data[$offset]);
-    }
-
-    public function offsetGet($offset)
-    {
-        return isset($this->data[$offset]) ? $this->data[$offset] : null;
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        is_null($offset) ? $this->data[] = $value : $this->data[$offset] = $value;
-    }
-
-    public function offsetUnset($offset)
-    {
-        unset($this->data[$offset]);
-    }
-
+    
     /**
      * Creates a database connection object
      *
