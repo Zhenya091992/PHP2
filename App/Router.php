@@ -3,6 +3,8 @@
 namespace App;
 
 use App\Controllers\NewsController;
+use App\Exceptions\Exception404;
+use Psr\Log\LoggerInterface;
 
 class Router
 {
@@ -39,10 +41,10 @@ class Router
                     $this->controller = new $nameController();
                     $this->controller->action($nameAction);
                 } else {
-                    echo 'error 404';
+                    throw new Exception404('action not found.');
                 }
             } else {
-                echo 'error 404';
+                throw new Exception404( 'controller not found.');
             }
         }
     }

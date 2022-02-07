@@ -3,6 +3,8 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\Admin;
+use App\Exceptions\Exception404;
+use App\Exceptions\MultiException;
 use App\Models\News;
 use App\Models\Author;
 use App\Models\User;
@@ -17,7 +19,8 @@ class AdminController extends Admin
 
     public function actionEditNews()
     {
-        $this->view->news = News::findById((int) $_GET['id']);
+
+        $this->view->news = News::findById((int) $_GET['id'])[0];
         $this->view->authors = Author::findAll();
         $this->view->display(__DIR__ . '/../../../template/tempAdminEditNews.php');
     }
@@ -27,30 +30,49 @@ class AdminController extends Admin
      */
     public function actionSaveNews()
     {
-        if  ($news = News::findById($_GET['id'])) {
-            $news[0]->title = $_POST['newTitle'];
-            $news[0]->shortDescription = $_POST['newShortDescription'];
-            $news[0]->text = $_POST['newText'];
-            $news[0]->author_id = $_POST['author_id'];
-            $news[0]->save();
+        $news = new News();
+        $this->view->authors = Author::findAll();
+        $arrayPropertys = [
+            'id' => $_GET['id'],
+            'title' => $_POST['newTitle'],
+            'shortDescription' => $_POST['newShortDescription'],
+            'text' => $_POST['newText'],
+            'author_id' => $_POST['author_id']
+        ];
+        try {
+            $news->fill($arrayPropertys);
+        } catch (MultiException $errs) {
+            $this->view->errs = $errs;
+            $this->view->news = $news;
+            $this->view->display(__DIR__ . '/../../../template/tempAdminEditNews.php');
         }
-        $this->view->news = $news;
-        $this->view->display(__DIR__ . '/../../../template/tempAdminSave.php');
+
+        if (!isset($this->view->errs)) {
+            $news->save();
+            $this->view->news = $news;
+            $this->view->display(__DIR__ . '/../../../template/tempAdminSave.php');
+        }
+/*
+
+*/
     }
 
     public function actionSignIn()
     {
-
         if (!empty($_POST['user']) && !empty($_POST['password'])) {
-            if ($user = User::findInTable('nameUser', $_POST['user'])) {
-                if ($user[0]->password == $_POST['password']) {
+            try {
+                if ($user = User::checkUser($_POST['user'], $_POST['password'])) {
                     $_SESSION['user'] = $_POST['user'];
                 }
+            } catch (Exception404 $err) {
+                $this->view->err = 'неверный логин или пароль';
+                $this->view->display(__DIR__ . '/../../../template/tempErrors.php');
             }
         }
+
         if (!empty($_SESSION['user'])) {
             $this->actionAllNews();
-        } else {
+        } else if (empty($err)) {
             $this->view->display(__DIR__ . '/../../../template/tempAdminSignIn.php');
         }
     }

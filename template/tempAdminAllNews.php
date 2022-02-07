@@ -31,6 +31,15 @@
 </nav>
 
 <?php
+if (!empty($errs)) {
+    foreach ($errs as $err) {
+?>
+        <div class="alert alert-danger" role="alert">
+            <?php echo $err; ?>
+        </div>
+<?php
+    }
+} else {
 foreach ($news as $value) {?>
     <div class="card">
         <h5 class="card-header"></h5>
@@ -40,7 +49,7 @@ foreach ($news as $value) {?>
             <a href="EditNews/?id=<?php echo $value['id']; ?>" class="btn btn-primary">Редактировать</a>
         </div>
     </div>
-<?php } ?>
+<?php }} ?>
 
 <!-- Дополнительный JavaScript; выберите один из двух! -->
 

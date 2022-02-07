@@ -63,6 +63,12 @@ trait MagicTrait
         return null !== key($this->data);
     }
 
+    public function current()
+    {
+        return current($this->data);
+
+    }
+
     public function offsetExists($offset) :bool
     {
         return isset($this->data[$offset]);

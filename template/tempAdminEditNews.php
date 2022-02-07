@@ -30,20 +30,32 @@
     </div>
 </nav>
 
+<?php
+if (isset($errs)) {
+    foreach ($errs as $err) {
+    ?>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <h4><?php echo $err->getMessage(); ?></h4>
+        </div>
+    <?php
+    }
+}
+?>
+
 <div class="card">
-    <form action="/php2/Admin/Admin/SaveNews/?id=<?php echo $news[0]['id']; ?>" method="post">
+    <form action="/php2/Admin/Admin/SaveNews/?id=<?php echo $news['id']; ?>" method="post">
         <div class="input-group">
             <div class="input-group">
                 <span class="input-group-text">Title</span>
-                <input type="text" class="form-control" aria-label="Title" name="newTitle" value="<?php echo $news[0]['title']; ?>">
+                <input type="text" class="form-control" aria-label="Title" name="newTitle" value="<?php echo $news['title']; ?>">
             </div>
             <div class="input-group">
                 <span class="input-group-text">Short description</span>
-                <textarea class="form-control" name="newShortDescription" aria-label="Short description"><?php echo $news[0]['shortDescription']; ?></textarea>
+                <textarea class="form-control" name="newShortDescription" aria-label="Short description"><?php echo $news['shortDescription']; ?></textarea>
             </div>
             <div class="input-group">
                 <span class="input-group-text">News</span>
-                <textarea class="form-control" aria-label="News" name="newText" style="height: 200px"><?php echo $news[0]['text']; ?></textarea>
+                <textarea class="form-control" aria-label="News" name="newText" style="height: 200px"><?php echo $news['text']; ?></textarea>
             </div>
             <div class="input-group">
                 <select name="author_id" class="form-select" aria-label="Default select example">
@@ -51,7 +63,7 @@
                     <?php
                     foreach ($authors as $author) {
                         echo '<option ';
-                        if ($author['id'] == $news[0]['author_id']) {
+                        if ($author['id'] == $news['author_id']) {
                             echo 'selected ';
                         }
                         echo 'value="' . $author['id'] . '">' . $author['nameAuthor'] . '</option>';

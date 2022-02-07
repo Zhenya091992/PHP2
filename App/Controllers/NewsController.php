@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
+use App\Exceptions\ExceptionDB;
 use App\Models\News;
 
 class NewsController extends Guest

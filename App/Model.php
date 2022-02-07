@@ -30,12 +30,6 @@ abstract class Model implements \ArrayAccess, \Iterator
      */
     protected static Db $db;
 
-    public function current()
-    {
-        return current($this->data);
-
-    }
-    
     /**
      * Creates a database connection object
      *
@@ -99,22 +93,6 @@ abstract class Model implements \ArrayAccess, \Iterator
     }
 
     /**
-     * @param string $column name column in table database
-     * @param string $param what we are looking for in the column
-     * @return array array of found objects
-     */
-    public static function findInTable(string $column, string $param)
-    {
-        static::connectDB();
-
-        return static::$db->query(
-            'SELECT * FROM ' . static::TABLE . " WHERE $column = :$column",
-            static::class,
-            [":$column" => $param]
-        );
-    }
-
-    /**
      * Checking for the existence of a model
      *
      * @return bool
@@ -143,7 +121,7 @@ abstract class Model implements \ArrayAccess, \Iterator
             $values[':' . $property] = $value;
         }
 
-        $sql = 'INSERT INTO ' . static::TABLE . ' (' . implode(', ', $columns) . ') 
+        $sql = 'INSERT INTO' . static::TABLE . ' (' . implode(', ', $columns) . ') 
         VALUES (' . implode(', ', array_keys($values)) . ')';
 
         static::connectDB();

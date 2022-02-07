@@ -29,9 +29,9 @@
 <div class="card">
     <h5 class="card-header"></h5>
     <div class="card-body">
-        <h5 class="card-title"><?php echo $news[0]['title']; ?></h5>
-        <p class="card-text"><?php echo $news[0]['text']; ?></p>
-        <p class="card-text"><?php echo $news[0]->author['nameAuthor']; ?></p>
+        <h5 class="card-title"><?php echo $news['title']; ?></h5>
+        <p class="card-text"><?php echo $news['text']; ?></p>
+        <p class="card-text"><?php echo $news->author['nameAuthor']; ?></p>
     </div>
 </div>
 

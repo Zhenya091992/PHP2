@@ -7,7 +7,7 @@ use App\Logger;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-class ExceptionDB extends MainException
+class Exception404 extends MainException
 {
     private $logger;
 
@@ -15,7 +15,7 @@ class ExceptionDB extends MainException
     {
         parent::__construct($message, $code, $previous);
         $this->setLogger(new Logger());
-        $this->logger->critical($message . ' exception:' . static::class . ' file:' . $this->file . ' строка:' . $this->line);
+        $this->logger->error($message . ' exception:' . static::class . ' file:' . $this->file . ' строка:' . $this->line);
     }
 
     public function setLogger(LoggerInterface $logger)

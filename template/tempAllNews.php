@@ -27,16 +27,28 @@
 </nav>
 
 <?php
-foreach ($news as $value) {?>
-    <div class="card">
-        <h5 class="card-header"></h5>
-        <div class="card-body">
-            <h5 class="card-title"><?php echo $value['title'] ?></h5>
-            <p class="card-text"><?php echo $value['shortDescription']; ?></p>
-            <a href="OneNews/?id=<?php echo $value['id']; ?>" class="btn btn-primary">Читать</a>
+if (!empty($errs)) {
+    foreach ($errs as $err) {
+?>
+        <div class="alert alert-danger" role="alert">
+            <?php echo $err; ?>
         </div>
-    </div>
-<?php } ?>
+<?php
+    }
+} else {
+    foreach ($news as $value) {?>
+        <div class="card">
+            <h5 class="card-header"></h5>
+            <div class="card-body">
+                <h5 class="card-title"><?php echo $value['title'] ?></h5>
+                <p class="card-text"><?php echo $value['shortDescription']; ?></p>
+                <a href="OneNews/?id=<?php echo $value['id']; ?>" class="btn btn-primary">Читать</a>
+            </div>
+        </div>
+<?php
+    }
+}
+?>
 
 <!-- Дополнительный JavaScript; выберите один из двух! -->
 

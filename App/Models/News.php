@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Exceptions\ExceptionFillNews;
+use App\Exceptions\MultiException;
+use App\Logger;
 use App\Model;
 use App\Models\Author;
 
@@ -40,6 +43,32 @@ class News extends Model
             return Author::findById((int) $this->data['author_id'])[0];
         } else {
             return null;
+        }
+    }
+
+    public function fill(array $arr)
+    {
+        foreach ($arr as $property => $value) {
+            $this->$property = $value;
+        }
+
+        $errs = new MultiException();
+        if ('' == $arr['title']) {
+            $errs[] = new ExceptionFillNews('заполните заголовок');
+        }
+        if ('' == $arr['shortDescription']) {
+            $errs[] = new ExceptionFillNews('заполните короткое описание');
+        }
+        if ('' == $arr['text']) {
+            $errs[] = new ExceptionFillNews('заполните новость');
+        }
+        if ('' == $arr['author_id']) {
+            $errs[] = new ExceptionFillNews('выберите автора');
+        }
+        if (!empty($errs[0])) {
+            $log = new Logger();
+            $log->log(Logger::NOTICE, 'неудачная попытка заполнения новости');
+            throw $errs;
         }
     }
 }

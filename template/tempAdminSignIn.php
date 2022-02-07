@@ -24,6 +24,17 @@
 
     </div>
 </nav>
+<?php
+if (!empty($errs)) {
+    foreach ($errs as $err) {
+?>
+        <div class="alert alert-danger" role="alert">
+            <?php echo $err; ?>
+        </div>
+<?php
+    }
+}
+?>
 <div class="card" style="width: 25rem;">
     <div class="card-body">
         <form class="form-signin" action="SignIn" method="post">
