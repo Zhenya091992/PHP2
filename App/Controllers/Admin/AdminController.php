@@ -52,9 +52,6 @@ class AdminController extends Admin
             $this->view->news = $news;
             $this->view->display(__DIR__ . '/../../../template/tempAdminSave.php');
         }
-/*
-
-*/
     }
 
     public function actionSignIn()
