@@ -2,16 +2,16 @@
 
 namespace App;
 
+use App\Controllers\Controller;
 use App\Controllers\NewsController;
 use App\Exceptions\Exception404;
-use Psr\Log\LoggerInterface;
 
 class Router
 {
     /**
-     * @var object $controller contain controller
+     * @var Controller $controller contain controller
      */
-    protected $controller;
+    protected Controller $controller;
 
     /**
      * @param string $uri request URI
@@ -20,6 +20,7 @@ class Router
      * из URI запроса формируется полное имя контроллера, а так же имя экшна.
      * если полученный контроллер или экшн не существует, даем ошибку 404
      * затем запускается контроллер и его экшн
+     * @throws Exception404
      */
     public function routing(string $uri)
     {

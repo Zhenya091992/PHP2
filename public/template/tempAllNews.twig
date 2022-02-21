@@ -1,0 +1,40 @@
+{% extends "base.twig" %}
+
+{% block title %}Все новости{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/php2/News/AllNews">Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="/php2/Admin/Admin/AllNews">Admin</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    {% for news in allNews %}
+        <div class="card">
+            <h5 class="card-header"></h5>
+            <div class="card-body">
+                <h5 class="card-title">{{ news.title }}</h5>
+                <p class="card-text">{{ news.text }}</p>
+                <a href="OneNews/?id={{ news.id }}" class="btn btn-primary">Читать</a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block footer %}
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <p class="col-md-4 mb-0 text-muted">ресурсы предыдущей страницы: {{ timer }}</p>
+        </footer>
+    </div>
+{% endblock %}

@@ -38,10 +38,12 @@ class News extends Model
     public function __get(string $name)
     {
         if ($this->data[$name]) {
+            echo $name . '<br>';
             return $this->data[$name];
         } else if ($name == 'author') {
-            return Author::findById((int) $this->data['author_id'])[0];
+            return Author::findById((int) $this->data['author_id'])[0]->nameAuthor;
         } else {
+
             return null;
         }
     }

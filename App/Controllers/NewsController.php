@@ -2,21 +2,32 @@
 
 namespace App\Controllers;
 
-use App\Controllers\Controller;
-use App\Exceptions\ExceptionDB;
 use App\Models\News;
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
 
 class NewsController extends Guest
 {
     public function actionAllNews()
     {
-        $this->view->news = News::findAll();
-        $this->view->display(__DIR__ . '/../../template/tempAllNews.php');
+        $loader = new FilesystemLoader(__DIR__ . '/../../public/template/');
+        $twig = new Environment($loader);
+        $template = $twig->load('tempAllNews.twig');
+        $template->display([
+            'allNews' => News::findAll(),
+            'timer' => $_SESSION['timer']
+        ]);
     }
 
     public function actionOneNews()
     {
-        $this->view->news = News::findById($_GET['id']);
-        $this->view->display(__DIR__ . '/../../template/tempOneNews.php');
+        $loader = new FilesystemLoader(__DIR__ . '/../../public/template/');
+        $twig = new Environment($loader);
+        $template = $twig->load('tempOneNews.twig');
+        $template->display([
+            'news' => $news = News::findById($_GET['id'])[0],
+            'author' => $news->author,
+            'timer' => $_SESSION['timer']
+        ]);
     }
 }

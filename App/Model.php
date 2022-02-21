@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Db;
+use App\traits\MagicTrait;
 
 /**
  * Class Model
@@ -15,7 +16,7 @@ use App\Db;
  */
 abstract class Model implements \ArrayAccess, \Iterator
 {
-    use \App\traits\MagicTrait;
+    use MagicTrait;
 
     /**
      * @var string TABLE constant

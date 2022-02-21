@@ -4,7 +4,6 @@ use App\Exceptions\ExceptionDB;
 use App\Exceptions\Exception404;
 use App\Router;
 use App\View;
-use App\Logger;
 use SebastianBergmann\Timer\Timer;
 use SebastianBergmann\Timer\ResourceUsageFormatter;
 
@@ -24,6 +23,6 @@ try {
     $view = new View();
     $view->display(__DIR__ . '/template/tempError404.php');
 } finally {
-    $log = new Logger();
-    $log->debug('Duration index.php ' . (new ResourceUsageFormatter)->resourceUsage($timer->stop()));
+    // счетчик будет отоброжать значения предыдущей загруженной страницы
+    $_SESSION['timer'] = (new ResourceUsageFormatter)->resourceUsage($timer->stop());
 }
