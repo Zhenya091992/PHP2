@@ -4,6 +4,7 @@ namespace App;
 
 use App\Exceptions\Exception404;
 use App\Exceptions\ExceptionDB;
+use PDO;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 
@@ -97,6 +98,25 @@ class Db implements LoggerAwareInterface
                     return $result;
                 } else {
                     throw new Exception404('нет совпадений в базе данных');
+                }
+            }
+        } else {
+            throw new ExceptionDB('ошибка в запросе');
+        }
+    }
+
+    public function queryEach(string $sql,string $class = null, $data = null)
+    {
+        $sth = $this->dbh->prepare($sql);
+        if ($sth->execute($data)) {
+            if (null == $class) {
+                while ($result = $sth->fetch()) {
+                    yield $result;
+                }
+            } else {
+                $sth->setFetchMode(PDO::FETCH_CLASS, $class);
+                while ($result = $sth->fetch()) {
+                    yield $result;
                 }
             }
         } else {

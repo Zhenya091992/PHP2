@@ -46,13 +46,13 @@ abstract class Model implements \ArrayAccess, \Iterator
      *
      * Finds all data of database and returns it as array of objects or false
      *
-     * @return array|false
+     * @return \Generator
      */
     public static function findAll()
     {
         static::connectDB();
 
-        return static::$db->query(
+        return static::$db->queryEach(
             'SELECT * FROM ' . static::TABLE,
             static::class
         );

@@ -8,26 +8,32 @@ use Twig\Environment;
 
 class NewsController extends Guest
 {
+    public function __construct()
+    {
+        $this->viewEngine = 'twig';
+        parent::__construct();
+    }
+
     public function actionAllNews()
     {
-        $loader = new FilesystemLoader(__DIR__ . '/../../public/template/');
-        $twig = new Environment($loader);
-        $template = $twig->load('tempAllNews.twig');
-        $template->display([
+        $this->view->display(
+            'tempAllNews.twig',
+            [
             'allNews' => News::findAll(),
             'timer' => $_SESSION['timer']
-        ]);
+            ]
+        );
     }
 
     public function actionOneNews()
     {
-        $loader = new FilesystemLoader(__DIR__ . '/../../public/template/');
-        $twig = new Environment($loader);
-        $template = $twig->load('tempOneNews.twig');
-        $template->display([
-            'news' => $news = News::findById($_GET['id'])[0],
-            'author' => $news->author,
-            'timer' => $_SESSION['timer']
-        ]);
+        $this->view->display(
+            'tempOneNews.twig',
+            [
+                'news' => $news = News::findById($_GET['id'])[0],
+                'author' => $news->author,
+                'timer' => $_SESSION['timer']
+            ]
+        );
     }
 }

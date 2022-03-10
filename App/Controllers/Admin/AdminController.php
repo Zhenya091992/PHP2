@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Admin;
 
+use App\AdminDataTable;
 use App\Controllers\Admin;
 use App\Exceptions\Exception404;
 use App\Exceptions\MultiException;
@@ -11,15 +12,39 @@ use App\Models\User;
 
 class AdminController extends Admin
 {
+    public function __construct()
+    {
+        $this->viewEngine = 'php';
+        parent::__construct();
+    }
+
     public function actionAllNews()
     {
-        $this->view->news = News::findAll();
+        $news = News::findAll();
+        $arrayFunctions = [
+            function ($model) {
+                return $model['id'];
+            },
+            function ($model) {
+                return $model['title'];
+            },
+            function ($model) {
+                return $model['shortDescription'];
+            },
+            function ($model) {
+                return $model['text'];
+            },
+            function ($model) {
+                return $model['author'];
+            }
+        ];
+        $dataTable = new AdminDataTable($news, $arrayFunctions);
+        $this->view->news = $dataTable->render();
         $this->view->display(__DIR__ . '/../../../template/tempAdminAllNews.php');
     }
 
     public function actionEditNews()
     {
-
         $this->view->news = News::findById((int) $_GET['id'])[0];
         $this->view->authors = Author::findAll();
         $this->view->display(__DIR__ . '/../../../template/tempAdminEditNews.php');

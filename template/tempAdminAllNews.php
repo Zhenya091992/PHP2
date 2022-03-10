@@ -44,9 +44,9 @@ foreach ($news as $value) {?>
     <div class="card">
         <h5 class="card-header"></h5>
         <div class="card-body">
-            <h5 class="card-title"><?php echo $value['title'] ?></h5>
-            <p class="card-text"><?php echo $value['shortDescription']; ?></p>
-            <a href="EditNews/?id=<?php echo $value['id']; ?>" class="btn btn-primary">Редактировать</a>
+            <h5 class="card-title"><?php echo $value[1] ?></h5>
+            <p class="card-text"><?php echo $value[2]; ?></p>
+            <a href="EditNews/?id=<?php echo $value[0]; ?>" class="btn btn-primary">Редактировать</a>
         </div>
     </div>
 <?php }} ?>
