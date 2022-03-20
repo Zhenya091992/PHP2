@@ -134,7 +134,7 @@ class Db implements LoggerAwareInterface
         return $this->dbh->lastInsertId();
     }
 
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }

@@ -20,7 +20,7 @@ class NewsController extends Guest
             'tempAllNews.twig',
             [
             'allNews' => News::findAll(),
-            'timer' => $_SESSION['timer']
+            'timer' => isset($_SESSION['timer']) ? $_SESSION['timer'] : null
             ]
         );
     }

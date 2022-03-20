@@ -10,7 +10,7 @@ class Logger extends LogLevel implements LoggerInterface
 {
     use LoggerTrait;
 
-    public function log($level, $message, array $context = [])
+    public function log($level, $message, array $context = []): void
     {
         $dateFormatted = (new \DateTime())->format('Y-m-d H:i:s');
         // Построение массива подстановки с фигурными скобками

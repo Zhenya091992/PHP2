@@ -44,7 +44,7 @@ abstract class Model implements \ArrayAccess, \Iterator
     /**
      * Finds all data of database
      *
-     * Finds all data of database and returns it as array of objects or false
+     * Finds all data of database and returns it as array of objects
      *
      * @return \Generator
      */
@@ -155,7 +155,7 @@ abstract class Model implements \ArrayAccess, \Iterator
             " WHERE " . "id = :id"
         );
 
-        static::$db->query($sqlUpdate, static::class, $data);
+        static::$db->execute($sqlUpdate,  $data);
     }
 
     /**

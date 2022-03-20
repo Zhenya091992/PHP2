@@ -28,18 +28,18 @@ class Router
             $this->controller = new NewsController();
             $this->controller->action('actionAllNews');
         } else {
-            preg_match('#[^(php2/)][\w{1,}/]{1,}/(\w{1,})#', $uri, $matches);
+            preg_match('#[^(PHP2/)][\w{1,}/]{1,}/(\w{1,})#', $uri, $matches);
             $matches[2] = preg_replace('#/' . $matches[1] . '$#', '', $matches[0]);
-            $nameController = 'App\Controllers\\' . $matches[2] . 'Controller';
-            $nameController = str_replace('/', '\\', $nameController);
+            $nameController = 'App/Controllers/' . $matches[2] . 'Controller';
+            $nameControllerNamespace = str_replace('/', '\\', $nameController);
             $nameAction = 'action' . $matches[1];
 
             if (
                 file_exists(__DIR__ . '/../' . $nameController . '.php') &&
-                $nameController != 'App\Controllers\Controller'
+                $nameController != 'App/Controllers/Controller'
             ) {
-                if (method_exists($nameController, $nameAction)) {
-                    $this->controller = new $nameController();
+                if (method_exists($nameControllerNamespace, $nameAction)) {
+                    $this->controller = new $nameControllerNamespace();
                     $this->controller->action($nameAction);
                 } else {
                     throw new Exception404('action not found.');

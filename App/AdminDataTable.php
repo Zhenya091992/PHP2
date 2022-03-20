@@ -21,6 +21,7 @@ class AdminDataTable
                 $result[$key][] = $function($model);
             }
         }
+
         return $result;
     }
 }

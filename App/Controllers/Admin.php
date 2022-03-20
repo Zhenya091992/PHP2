@@ -15,7 +15,7 @@ abstract class Admin extends Controller
 
     public function access()
     {
-        if ($_GET['user'] == 'exit') {
+        if (isset($_GET['user']) && $_GET['user'] == 'exit') {
             unset($_SESSION['user']);
 
             return false;
