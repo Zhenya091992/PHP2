@@ -15,13 +15,21 @@ class AdminDataTable
 
     public function render()
     {
-        $result = [];
-        foreach ($this->arrayModels as $key => $model) {
+        foreach ($this->arrayModels as $model) {
+            $firstElement = true;
             foreach ($this->arrayFunctions as $function) {
-                $result[$key][] = $function($model);
-            }
-        }
+                if ($firstElement == true) {
+                    $firstElement = false;
+                    $id = $function($model);
 
-        return $result;
+                    yield '<td><a href="/PHP2/Admin/Admin/EditNews?id=' . $id . '">' . $id . '</a></td>';
+                    continue;
+                }
+
+                yield '<td>' . $function($model) . '</td>';
+            }
+
+            yield '</tr><tr>';
+        }
     }
 }

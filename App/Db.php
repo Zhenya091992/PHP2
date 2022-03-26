@@ -81,43 +81,28 @@ class Db implements LoggerAwareInterface
      * @param array|null $data array with placeholders|null
      * @return array
      */
-    public function query(string $sql,string $class = null, $data = null): array
+    public function query(string $sql,string $class, $data = null): array
     {
         $sth = $this->dbh->prepare($sql);
         if ($sth->execute($data)) {
-            if (null == $class) {
-                $result = $sth->fetchAll();
-                if (!empty($result)) {
-                    return $result;
-                } else {
-                    throw new Exception404('нет совпадений в базе данных');
-                }
+            $result = $sth->fetchAll(\PDO::FETCH_CLASS, $class);
+            if (!empty($result)) {
+                return $result;
             } else {
-                $result = $sth->fetchAll(\PDO::FETCH_CLASS, $class);
-                if (!empty($result)) {
-                    return $result;
-                } else {
-                    throw new Exception404('нет совпадений в базе данных');
-                }
+                throw new Exception404('нет совпадений в базе данных');
             }
         } else {
             throw new ExceptionDB('ошибка в запросе');
         }
     }
 
-    public function queryEach(string $sql,string $class = null, $data = null)
+    public function queryEach(string $sql,string $class, $data = null)
     {
         $sth = $this->dbh->prepare($sql);
         if ($sth->execute($data)) {
-            if (null == $class) {
-                while ($result = $sth->fetch()) {
-                    yield $result;
-                }
-            } else {
-                $sth->setFetchMode(PDO::FETCH_CLASS, $class);
-                while ($result = $sth->fetch()) {
-                    yield $result;
-                }
+            $sth->setFetchMode(PDO::FETCH_CLASS, $class);
+            while ($result = $sth->fetch()) {
+                yield $result;
             }
         } else {
             throw new ExceptionDB('ошибка в запросе');

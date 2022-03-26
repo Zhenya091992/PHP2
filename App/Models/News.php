@@ -72,4 +72,27 @@ class News extends Model
             throw $errs;
         }
     }
+
+    public static function getFunctions()
+    {
+        $arrayFunctions = [
+            function ($model) {
+                return $model['id'];
+            },
+            function ($model) {
+                return $model['title'];
+            },
+            function ($model) {
+                return $model['shortDescription'];
+            },
+            function ($model) {
+                return $model['text'];
+            },
+            function ($model) {
+                return $model->author;
+            }
+        ];
+
+        return $arrayFunctions;
+    }
 }
